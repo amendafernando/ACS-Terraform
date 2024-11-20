@@ -2,7 +2,7 @@
 Assignment 2
 
 ## Group Members
-Amenda Fernando
-Philip Tam
-Salisha Giri
-Sri Shidhart
+Amenda Fernando  
+Philip Tam  
+Salisha Giri  
+Sri Shidhart  
