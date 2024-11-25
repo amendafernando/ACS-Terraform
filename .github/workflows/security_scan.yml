@@ -1,0 +1,48 @@
+name: Security Scans
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security-scan:
+    name: Run Security Scans
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # - name: Install Trivy
+      #   run: |
+      #     curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
+
+      # - name: Run Trivy Scan
+      #   run: |
+      #     trivy fs . --exit-code 1 --severity HIGH,CRITICAL
+
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+      - name: Run TFLint
+        run: |
+          tflint --disable-rule=terraform_required_providers
+
+      # - name: Upload Trivy results
+      #   if: failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: trivy-results
+      #     path: trivy-results.txt
+
+      - name: Upload TFLint results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: tflint-results
+          path: tflint-results.txt
