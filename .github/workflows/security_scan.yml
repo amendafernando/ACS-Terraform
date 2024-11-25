@@ -47,7 +47,7 @@ jobs:
       #     name: trivy-results
       #     path: trivy-results.txt
 
-      - name: Upload TFLint results
+      - name: Upload TFLint results to txt file
         if: failure()
         uses: actions/upload-artifact@v3
         with:
