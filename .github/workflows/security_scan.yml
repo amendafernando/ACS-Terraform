@@ -53,3 +53,9 @@ jobs:
         with:
           name: tflint-results
           path: tflint-results.txt
+          
+      - name: Check for typos
+        uses: codespell-project/actions-codespell@v2
+        with:
+          check_filenames: true
+          check_hidden: false
