@@ -18,6 +18,6 @@ module "vpc" {
   ]
   private_subnets = [
     { name = "Private Subnet 1", cidr = "10.1.5.0/24", az = "us-east-1a" },
-    { name = "Private Subnet 2", cidr = "10.1.6.0/24", az = "us-east-1b" },
+    { name = "Private Subnet 2", cidrr = "10.1.6.0/24", az = "us-east-1b" },
   ]
 }
