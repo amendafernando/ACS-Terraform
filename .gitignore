@@ -4,3 +4,6 @@
 *.lock.hcl
 terraform.tfstate.d/
 
+Terraform/keys/
+*.pem
+*.pub

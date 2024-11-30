@@ -49,5 +49,6 @@ resource "aws_instance" "webserver4" {
 
   tags = {
     Name = "webserver4"
+    WebServer = "true"
   }
 }

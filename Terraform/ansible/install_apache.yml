@@ -1,0 +1,26 @@
+- name: Install and Configure Apache Web Server
+  hosts: tag_WebServer4  
+  become: true
+  tasks:
+    - name: Update the package cache
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure Apache service is started
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create a custom index.html file
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Welcome to Webserver</h1>
+          <h2>Managed by Ansible</h2>
