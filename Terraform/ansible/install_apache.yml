@@ -1,5 +1,5 @@
 - name: Install and Configure Apache Web Server
-  hosts: tag_WebServer4  
+  hosts: tag_webserver4
   become: true
   tasks:
     - name: Update the package cache
@@ -18,9 +18,40 @@
         state: started
         enabled: true
 
+    - name: Download image file from S3 bucket
+      get_url:
+        url: "https://group3-terraform-state-dev-sh.s3.us-east-1.amazonaws.com/picture.jpg" 
+        dest: /var/www/html/picture.jpg 
+
     - name: Create a custom index.html file
       copy:
         dest: /var/www/html/index.html
         content: |
-          <h1>Welcome to Webserver</h1>
-          <h2>Managed by Ansible</h2>
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Welcome Page</title>
+            <style>
+              body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                text-align: center;
+              }
+              img {
+                max-width: 80%;
+                height: auto;
+                margin-top: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Hello from Webserver 4!! :)</h1>
+            <img src="picture.jpg" alt="Webserver Image">  
+          </body>
+          </html>
