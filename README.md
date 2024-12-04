@@ -16,17 +16,63 @@ sudo yum -y install terraform
 ## Project Structure
 
 ```text
-Terraform
-    ├── modules
-    │    ├── global_var
-    │    ├── VPC
-    │    └── webservers
-    ├── dev
-    │    ├── network
-    │    └── config.tf
-    └── prod
-         ├── network
-         └── config.tf
+Terraform/
+├── modules/
+│   ├── global_var/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── webservers/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── bastion/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── alb/
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+├── dev/
+│   ├── network/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── webservers/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── bastion/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── alb/
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+└── prod/
+    ├── network/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    ├── webservers/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    ├── bastion/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    └── alb/
+        ├── main.tf
+        ├── variables.tf
+        └── outputs.tf
+
 ```
 
 
