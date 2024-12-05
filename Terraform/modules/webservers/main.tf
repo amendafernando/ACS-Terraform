@@ -35,6 +35,20 @@ resource "aws_launch_template" "webservers" {
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
+  # user_data         = file("${path.module}/install_httpd.sh")
+  user_data = base64encode(<<-EOF
+    #!/bin/bash
+
+    yum update -y
+    yum install httpd -y
+
+    echo "<h1>Welcome to ACS730 Assignment 2 WebServer!</h1> Private IP is $(hostname -I | awk '{print $1}') <br><br>Built by Terraform!" > /var/www/html/index.html
+
+    systemctl start httpd
+    systemctl enable httpd
+  EOF
+  )
+  
 
   network_interfaces {
     associate_public_ip_address = var.associate_public_ip
@@ -50,17 +64,19 @@ resource "aws_launch_template" "webservers" {
 }
 
 resource "aws_autoscaling_group" "webservers_asg" {
-  desired_capacity     = var.desired_capacity
-  max_size             = var.max_size
-  min_size             = var.min_size
-  vpc_zone_identifier  = var.subnet_ids
+  desired_capacity    = var.desired_capacity
+  max_size            = var.max_size
+  min_size            = var.min_size
+  vpc_zone_identifier = var.subnet_ids
+
   launch_template {
     id      = aws_launch_template.webservers.id
     version = "$Latest"
-  } 
-#   tags = [{
-#       key                 = "Name"
-#       value               = "${var.env}-webserver"
-#       propagate_at_launch = true
-#     }]
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "${var.env}-webserver"
+    propagate_at_launch = true
+  }
 }
