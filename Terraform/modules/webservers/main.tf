@@ -80,3 +80,43 @@ resource "aws_autoscaling_group" "webservers_asg" {
     propagate_at_launch = true
   }
 }
+resource "aws_instance" "webserver5" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.private_subnet_ids[0] # Assign to Private Subnet 1
+  key_name      = var.key_name
+  security_groups             = [aws_security_group.webservers_sg.id]
+
+  tags = {
+    Name = "${var.env}-webserver5"
+  }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    yum install -y httpd
+    systemctl enable httpd
+    systemctl start httpd
+    echo "<html><body><h1>Welcome to Web Server 5 (Private Subnet)</h1></body></html>" > /var/www/html/index.html
+  EOF
+}
+
+resource "aws_instance" "vm6" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.private_subnet_ids[1] # Assign to Private Subnet 2
+  key_name      = var.key_name
+  security_groups             = [aws_security_group.webservers_sg.id]
+
+  tags = {
+    Name = "${var.env}-vm6"
+  }
+}
+
+output "webserver5_id" {
+  value = aws_instance.webserver5.id
+}
+
+output "vm6_id" {
+  value = aws_instance.vm6.id
+}
