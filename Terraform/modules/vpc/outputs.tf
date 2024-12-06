@@ -19,7 +19,7 @@ output "private_subnet_ids" {
 # Output for NAT Gateway IDs
 output "nat_gateway_ids" {
   description = "IDs of the NAT Gateways"
-  value       = aws_nat_gateway.ngw[*].id
+  value       = aws_nat_gateway.nat[*].id
 }
 
 # Output for Public Route Table IDs
