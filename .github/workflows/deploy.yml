@@ -1,0 +1,81 @@
+name: Deploy Terraform for Dev Environment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Replace with your AWS region
+
+      # Step 3: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7 # Replace with your desired Terraform version
+
+      # Step 4: Terraform for dev/network
+      - name: Terraform Init for dev/network
+        working-directory: Terraform/dev/network
+        run: terraform init
+
+      - name: Terraform Validate for dev/network
+        working-directory: Terraform/dev/network
+        run: terraform validate
+
+      - name: Terraform Plan for dev/network
+        working-directory: Terraform/dev/network
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply for dev/network
+        working-directory: Terraform/dev/network
+        run: terraform apply -auto-approve tfplan
+
+      # Step 5: Terraform for dev/webservers
+      - name: Terraform Init for dev/webservers
+        working-directory: Terraform/dev/webservers
+        run: terraform init
+
+      - name: Terraform Validate for dev/webservers
+        working-directory: Terraform/dev/webservers
+        run: terraform validate
+
+      - name: Terraform Plan for dev/webservers
+        working-directory: Terraform/dev/webservers
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply for dev/webservers
+        working-directory: Terraform/dev/webservers
+        run: terraform apply -auto-approve tfplan
+
+      # Step 6: Terraform for dev/alb
+      - name: Terraform Init for dev/alb
+        working-directory: Terraform/dev/alb
+        run: terraform init
+
+      - name: Terraform Validate for dev/alb
+        working-directory: Terraform/dev/alb
+        run: terraform validate
+
+      - name: Terraform Plan for dev/alb
+        working-directory: Terraform/dev/alb
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply for dev/alb
+        working-directory: Terraform/dev/alb
+        run: terraform apply -auto-approve tfplan
