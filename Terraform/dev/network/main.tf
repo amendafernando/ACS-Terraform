@@ -1,6 +1,5 @@
 module "global_var" {
   source = "../../modules/global_var"
-
   region = "us-east-1"
   env    = "dev"
 

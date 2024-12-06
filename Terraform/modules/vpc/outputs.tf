@@ -1,3 +1,4 @@
+
 # Output for the VPC ID
 output "vpc_id" {
   description = "The ID of the created VPC"
@@ -32,4 +33,5 @@ output "public_route_table_ids" {
 output "private_route_table_ids" {
   description = "IDs of the private route tables"
   value       = aws_route_table.private[*].id
+
 }

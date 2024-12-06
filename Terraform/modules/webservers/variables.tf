@@ -24,8 +24,9 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  description = "Key pair name for SSH access"
+  description = "Name of the key pair to use for SSH access"
   type        = string
+  default     = "my-key"
 }
 
 variable "associate_public_ip" {
@@ -50,4 +51,8 @@ variable "min_size" {
   description = "Minimum number of instances"
   type        = number
   default     = 1
+}
+variable "private_subnet_ids" {
+  description = "List of private subnet IDs for deployment"
+  type        = list(string)
 }

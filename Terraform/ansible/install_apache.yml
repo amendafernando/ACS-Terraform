@@ -1,0 +1,63 @@
+- name: Install and Configure Apache Web Servers
+  hosts: "{{ target | default('all') }}"
+  become: true
+  tasks:
+    - name: Update the package cache
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure Apache service is started
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Download image file from S3 bucket
+      get_url:
+        url: "https://group3-terraform-state-dev-sh.s3.us-east-1.amazonaws.com/picture.jpg" 
+        dest: /var/www/html/picture.jpg 
+
+    - name: Create a custom index.html file
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Welcome Page</title>
+            <style>
+              body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                text-align: center;
+              }
+              img {
+                max-width: 80%;
+                height: auto;
+                margin-top: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            {% if target == "tag_webserver4" %}
+            <h1>Hello from Webserver 4!! :)</h1>
+            {% elif target == "tag_webserver3" %}
+            <h1>Hello from Webserver 3!! :)</h1>
+            {% else %}
+            <h1>Welcome to the Webserver!</h1>
+            {% endif %}
+            <img src="picture.jpg" alt="Webserver Image">  
+          </body>
+          </html>
