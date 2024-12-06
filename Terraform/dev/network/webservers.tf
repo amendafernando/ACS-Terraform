@@ -50,7 +50,7 @@ resource "aws_key_pair" "assignment_key" {
 resource "aws_instance" "webserver4" {
   ami           = "ami-0453ec754f44f9a4a" # Replace with Amazon Linux 2023 AMI ID
   instance_type = "t2.micro"
-  subnet_id     = module.vpc.public_subnets[3]
+  subnet_id     = module.vpc.public_subnet_ids[3]
   key_name      = aws_key_pair.assignment_key.key_name
 
   vpc_security_group_ids = [aws_security_group.webserver4_sg.id] # Use SG by ID
@@ -110,7 +110,7 @@ resource "aws_key_pair" "webserver3_key" {
 resource "aws_instance" "webserver3" {
   ami           = "ami-0453ec754f44f9a4a" # Replace with Amazon Linux 2023 AMI ID
   instance_type = "t2.micro"
-  subnet_id     = module.vpc.public_subnets[2] # Subnet 3
+  subnet_id     = module.vpc.public_subnet_ids[2] # Subnet 3
   key_name      = aws_key_pair.webserver3_key.key_name
 
   vpc_security_group_ids = [aws_security_group.webserver3_sg.id] # Use SG by ID
