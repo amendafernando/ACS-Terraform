@@ -96,14 +96,18 @@ resource "aws_instance" "webserver5" {
     Name = "${var.env}-webserver5"
   }
 
-  user_data = <<-EOF
+ user_data = base64encode(<<-EOF
     #!/bin/bash
-    yum update -y
-    yum install -y httpd
-    systemctl enable httpd
-    systemctl start httpd
-    echo "<html><body><h1>Welcome to Web Server 5 (Private Subnet)</h1></body></html>" > /var/www/html/index.html
+    yum -y update
+    yum -y install httpd
+    # Download the image from S3
+    curl -o /var/www/html/picture.jpg https://group3-terraform-state-dev-sh.s3.us-east-1.amazonaws.com/picture.jpg
+    # Create the HTML file to display the image
+    echo "<h1>Welcome to ACS730 Assignment 2 WebServer!</h1> Private IP is $(hostname -I | awk '{print $1}') <br><br><img src='picture.jpg' alt='Webserver Image' /> <br><br>Built by Terraform!" > /var/www/html/index.html
+    sudo systemctl start httpd
+    sudo systemctl enable httpd
   EOF
+  )
 }
 
 resource "aws_instance" "vm6" {
