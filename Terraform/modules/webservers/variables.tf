@@ -51,3 +51,7 @@ variable "min_size" {
   type        = number
   default     = 1
 }
+variable "private_subnet_ids" {
+  description = "List of private subnet IDs for deployment"
+  type        = list(string)
+}
