@@ -43,11 +43,14 @@ resource "aws_launch_template" "webservers" {
 
   user_data = base64encode(<<-EOF
     #!/bin/bash
-    yum update -y
-    yum install httpd -y
-    echo "<h1>Welcome to ACS730 Assignment 2 WebServer!</h1> Private IP is $(hostname -I | awk '{print $1}') <br><br>Built by Terraform!" > /var/www/html/index.html
-    systemctl start httpd
-    systemctl enable httpd
+    yum -y update
+    yum -y install httpd
+    # Download the image from S3
+    curl -o /var/www/html/picture.jpg https://group3-terraform-state-dev-sh.s3.us-east-1.amazonaws.com/picture.jpg
+    # Create the HTML file to display the image
+    echo "<h1>Welcome to ACS730 Assignment 2 WebServer!</h1> Private IP is $(hostname -I | awk '{print $1}') <br><br><img src='picture.jpg' alt='Webserver Image' /> <br><br>Built by Terraform!" > /var/www/html/index.html
+    sudo systemctl start httpd
+    sudo systemctl enable httpd
   EOF
   )
 
@@ -72,12 +75,12 @@ resource "aws_autoscaling_group" "webservers_asg" {
 
   launch_template {
     id      = aws_launch_template.webservers.id
-    version = aws_launch_template.webservers.latest_version  # Correct usage
+    version = aws_launch_template.webservers.latest_version
   }
 
   tag {
     key                 = "Name"
-    value               = "${var.env}-webserver"
+    value               = "${var.env}-webserver" # Unique instance name
     propagate_at_launch = true
   }
 }
