@@ -1,4 +1,4 @@
-name: Deploy Terraform for Dev Environment
+name: Deploy Terraform for Prod Environment
 
 on:
   push:
