@@ -78,6 +78,4 @@ Terraform/
 
 ## Group Members
 Amenda Fernando  
-Philip Tam  
-Salisha Giri  
-Shridhar Thangavel
+
