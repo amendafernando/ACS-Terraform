@@ -1,5 +1,5 @@
 # ACS730
-Assignment 2
+Terraform Seeder
 
 ## Pre-requisites
 > Install Terraform in Cloud9 Env
