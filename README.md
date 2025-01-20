@@ -1,5 +1,5 @@
-# ACS730
-Terraform Seeder
+# ACS - Terraform Baser
+A Terraform Seeder project to get things started
 
 ## Pre-requisites
 > Install Terraform in Cloud9 Env
